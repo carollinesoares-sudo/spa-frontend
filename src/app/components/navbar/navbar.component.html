@@ -1,0 +1,22 @@
+<nav class="navbar-container">
+  <div class="navbar-brand">
+    <i class="fa-solid fa-spa brand-icon"></i>
+    <span>LUMIÈRE <strong>SPA</strong></span>
+  </div>
+
+  <div class="navbar-menu">
+    <a routerLink="/agendamentos" routerLinkActive="active"><i class="fa-regular fa-calendar-check"></i> Agendamentos</a>
+    <a routerLink="/clientes" routerLinkActive="active"><i class="fa-solid fa-users"></i> Clientes</a>
+  </div>
+
+  <div class="navbar-user" *ngIf="usuario">
+    <div class="avatar">{{ usuario.nome[0] }}</div>
+    <div class="user-details">
+      <span class="user-name">{{ usuario.nome }}</span>
+      <span class="user-role">Administrador</span>
+    </div>
+    <button (click)="logout()" class="btn-logout" title="Sair do sistema">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
+  </div>
+</nav>

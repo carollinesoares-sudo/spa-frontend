@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <h2>Gestão de Clientes</h2>
+
+  <!-- Alertas de Feedback -->
+  <div *ngIf="mensagem" class="alert success">{{ mensagem }}</div>
+  <div *ngIf="erroMensagem" class="alert danger">{{ erroMensagem }}</div>
+
+  <!-- Formulário de Cadastro e Edição -->
+  <div class="card">
+    <h3>{{ isEditando ? 'Editar Cliente' : 'Novo Cliente' }}</h3>
+    <form (ngSubmit)="salvarCliente()" class="form-grid">
+      <div class="form-group">
+        <label>Nome *</label>
+        <input type="text" [(ngModel)]="clienteForm.nome" name="nome" required placeholder="Nome completo">
+      </div>
+
+      <div class="form-group">
+        <label>CPF *</label>
+        <input type="text" [(ngModel)]="clienteForm.cpf" name="cpf" required placeholder="000.000.000-00">
+      </div>
+
+      <div class="form-group">
+        <label>Telefone *</label>
+        <input type="text" [(ngModel)]="clienteForm.telefone" name="telefone" required placeholder="(00) 00000-0000">
+      </div>
+
+      <div class="form-group">
+        <label>E-mail *</label>
+        <input type="email" [(ngModel)]="clienteForm.email" name="email" required placeholder="cliente@email.com">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ isEditando ? 'Atualizar' : 'Salvar' }}</button>
+        <button type="button" *ngIf="isEditando" (click)="limparFormulario()" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Campo de Busca -->
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="filtro" (input)="aplicarFiltro()" placeholder="Buscar cliente por Nome ou CPF...">
+  </div>
+
+  <!-- Tabela de Clientes -->
+  <div class="card table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>Telefone</th>
+          <th>E-mail</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientesFiltrados">
+          <td>{{ cliente.id }}</td>
+          <td>{{ cliente.nome }}</td>
+          <td>{{ cliente.cpf }}</td>
+          <td>{{ cliente.telefone }}</td>
+          <td>{{ cliente.email }}</td>
+          <td class="actions">
+            <button (click)="prepararEdicao(cliente)" class="btn-icon edit">Editar</button>
+            <button (click)="excluirCliente(cliente.id)" class="btn-icon delete">Excluir</button>
+          </td>
+        </tr>
+        <tr *ngIf="clientesFiltrados.length === 0">
+          <td colspan="6" class="text-center">Nenhum cliente encontrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

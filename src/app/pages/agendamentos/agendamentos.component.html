@@ -1,0 +1,100 @@
+<app-navbar></app-navbar>
+
+<div class="luxury-container">
+  <div class="page-header">
+    <span class="badge-tag">EXCLUSIVIDADE & PRECISÃO</span>
+    <h2>Reserva de Salas & Procedimentos</h2>
+    <p>Agendamentos restritos ao horário de funcionamento (08:00 às 17:00).</p>
+  </div>
+
+  <!-- Alertas de Feedback -->
+  <div *ngIf="mensagem" class="alert success"><i class="fa-solid fa-circle-check"></i> {{ mensagem }}</div>
+  <div *ngIf="erroMensagem" class="alert danger"><i class="fa-solid fa-circle-exclamation"></i> {{ erroMensagem }}</div>
+
+  <!-- Formulário de Agendamento -->
+  <div class="luxury-card">
+    <div class="card-title">
+      <h3>Novo Agendamento</h3>
+    </div>
+
+    <form (ngSubmit)="salvarAgendamento()" class="form-grid">
+
+      <div class="form-group">
+        <label>CLIENTE *</label>
+        <select [(ngModel)]="agendamentoForm.cliente_id" name="cliente_id" required>
+          <option value="">Selecione o cliente...</option>
+          <option *ngFor="let cliente of clientes" [value]="cliente.id">
+            {{ cliente.nome }} (CPF: {{ cliente.cpf }})
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>SALA DE ATENDIMENTO *</label>
+        <select [(ngModel)]="agendamentoForm.sala_id" (change)="onSalaChange()" name="sala_id" required>
+          <option value="">Selecione a sala...</option>
+          <option *ngFor="let sala of salas" [value]="sala.id">
+            {{ sala.nome_sala }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>PROCEDIMENTO PERMITIDO *</label>
+        <select [(ngModel)]="agendamentoForm.procedimento" name="procedimento" required [disabled]="procedimentosDisponiveis.length === 0">
+          <option value="">{{ procedimentosDisponiveis.length === 0 ? 'Selecione uma sala primeiro...' : 'Selecione o procedimento...' }}</option>
+          <option *ngFor="let proc of procedimentosDisponiveis" [value]="proc">
+            {{ proc }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>DATA *</label>
+        <input type="date" [(ngModel)]="agendamentoForm.data_agendamento" name="data_agendamento" required>
+      </div>
+
+      <div class="form-group">
+        <label>HORÁRIO (08:00 AS 17:00) *</label>
+        <input type="time" [(ngModel)]="agendamentoForm.hora_agendamento" name="hora_agendamento" min="08:00" max="17:00" required>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-luxury">CONFIRMAR AGENDAMENTO</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabela de Histórico -->
+  <div class="luxury-card">
+    <div class="card-title">
+      <h3>Histórico de Atendimentos</h3>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>DATA</th>
+            <th>HORÁRIO</th>
+            <th>SALA E RECURSO</th>
+            <th>CLIENTE</th>
+            <th>PROCEDIMENTO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of agendamentos">
+            <td class="font-medium">{{ item.data_agendamento | date:'dd/MM/yyyy':'UTC' }}</td>
+            <td><span class="tag-gold">{{ item.hora_agendamento }}</span></td>
+            <td><span class="tag-dark">{{ item.nome_sala }}</span></td>
+            <td class="font-semibold">{{ item.cliente_nome }}</td>
+            <td class="text-muted">{{ item.procedimento }}</td>
+          </tr>
+          <tr *ngIf="agendamentos.length === 0">
+            <td colspan="5" class="empty-text">Nenhum agendamento realizado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

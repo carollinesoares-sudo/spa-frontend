@@ -1,0 +1,69 @@
+<div class="login-wrapper">
+  <!-- Painel Editorial de Destaque -->
+  <div class="brand-panel">
+    <div class="brand-overlay"></div>
+    <div class="brand-content">
+      <span class="brand-tagline">ELEVATING BEAUTY</span>
+      <h1 class="brand-title">ÉLITE ESTHÉTIQUE</h1>
+      <p class="brand-description">
+        Where clinical excellence meets ultimate serenity.
+      </p>
+    </div>
+    <div class="brand-footer">
+      <span>© 2026 ÉLITE ESTHÉTIQUE. ALL RIGHTS RESERVED.</span>
+    </div>
+  </div>
+
+  <!-- Formulario de Acesso -->
+  <div class="form-panel">
+    <div class="form-card">
+      <div class="form-header">
+        <span class="badge-subtitle">PORTAL EXCLUSIVO</span>
+        <h2>Acesse sua Conta</h2>
+        <p>Insira suas credenciais corporativas para acessar o painel.</p>
+      </div>
+
+      <div *ngIf="erroMensagem" class="alert-error">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>{{ erroMensagem }}</span>
+      </div>
+
+      <form (ngSubmit)="realizarLogin()">
+        <div class="form-group">
+          <label for="email">E-MAIL CORPORATIVO</label>
+          <div class="input-wrapper">
+            <i class="fa-regular fa-envelope input-icon"></i>
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="email"
+              name="email"
+              required
+              placeholder="admin@spa.com"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="senha">SENHA DE ACESSO</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input
+              type="password"
+              id="senha"
+              [(ngModel)]="senha"
+              name="senha"
+              required
+              placeholder="••••••••"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span>ENTRAR NO SISTEMA</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
